@@ -2,6 +2,9 @@ import Header from "./components/Header";
 import React, { useEffect, useState } from "react";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import Footer from "./components/Footer";
+import About from "./components/About";
+import { HashRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
 
 function App() {
@@ -38,24 +41,41 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <Header
-        title="Task Tracker"
-        onAdd={() => setShowAddTask(!showAddTask)}
-        showAddTask={showAddTask}
-      />
-      {showAddTask && (
-        <AddTask
-          onAdd={addTask}
-          onToggle={() => setShowAddTask(!showAddTask)}
+    <Router>
+      <div className="container">
+        <Header
+          title="Task Tracker"
+          onAdd={() => setShowAddTask(!showAddTask)}
+          showAddTask={showAddTask}
         />
-      )}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toogleReminder} />
-      ) : (
-        "No Task"
-      )}
-    </div>
+
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <>
+              {showAddTask && (
+                <AddTask
+                  onAdd={addTask}
+                  onToggle={() => setShowAddTask(!showAddTask)}
+                />
+              )}
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
+                  onDelete={deleteTask}
+                  onToggle={toogleReminder}
+                />
+              ) : (
+                "No Task"
+              )}
+            </>
+          )}
+        />
+        <Route path="/about" exact component={About} />
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

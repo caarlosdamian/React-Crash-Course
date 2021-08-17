@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddTask = ({ onAdd }) => {
+const AddTask = ({ onAdd, onToggle }) => {
   const [text, setText] = useState("");
   const [day, setDay] = useState("");
   const [reminder, setReminder] = useState(false);
@@ -11,7 +11,7 @@ const AddTask = ({ onAdd }) => {
       return;
     }
     onAdd({ text, day, reminder });
-
+    onToggle();
     setText("");
     setDay("");
     setReminder(false);
@@ -30,7 +30,7 @@ const AddTask = ({ onAdd }) => {
       <div className="form-control">
         <label htmlFor="">Day & Time </label>
         <input
-          type="text"
+          type="date"
           placeholder="Add Day and Time"
           value={day}
           onChange={(e) => setDay(e.target.value)}
